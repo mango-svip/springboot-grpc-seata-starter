@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+ site.cshare.config.SeataConfiguration,\
+ site.cshare.config.GrpcInterceptorConfiguration
