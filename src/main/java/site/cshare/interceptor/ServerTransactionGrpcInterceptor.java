@@ -36,22 +36,24 @@ public class ServerTransactionGrpcInterceptor implements ServerInterceptor {
             @Override
             public void onComplete() {
                 super.onComplete();
-                if (bindResult) {
-                    String unbindXid = RootContext.unbind();
-                    if (log.isDebugEnabled()) {
-                        log.debug("unbind [{}] from RootContext");
-                    }
-                    if (!rpcXid.equalsIgnoreCase(unbindXid)) {
-                        log.warn("xid in change during RPC from {} to {}", rpcXid, unbindXid);
-                        if (unbindXid != null) {
-                            RootContext.bind(unbindXid);
-                            log.warn("bind [{}] back to RootContext", unbindXid);
-                        }
-                    }
-
-                }
-
+                process(bindResult, rpcXid);
             }
         };
+    }
+
+    private void process(boolean bindResult, String rpcXid) {
+        if (bindResult) {
+            String unbindXid = RootContext.unbind();
+            if (log.isDebugEnabled()) {
+                log.debug("unbind [{}] from RootContext");
+            }
+            if (!rpcXid.equalsIgnoreCase(unbindXid)) {
+                log.warn("xid in change during RPC from {} to {}", rpcXid, unbindXid);
+                if (unbindXid != null) {
+                    RootContext.bind(unbindXid);
+                    log.warn("bind [{}] back to RootContext", unbindXid);
+                }
+            }
+        }
     }
 }
