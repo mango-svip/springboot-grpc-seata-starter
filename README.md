@@ -1,7 +1,7 @@
 # springboot-grpc-seata-starter
 springboot-grpc-seata-starter
 
-###实现原理
+### 实现原理
 ```
 基于grpc interceptor
 
@@ -10,7 +10,7 @@ springboot-grpc-seata-starter
          Metadata.Key<String> KEY_XID = Metadata.Key.of(RootContext.KEY_XID, Metadata.ASCII_STRING_MARSHALLER);
          headers.put(KEY_XID, xid);
         
-    服务器收到请求处理之前进行拦截，取出全局事务ID,并调动Seata的方法绑定到当前线程内
+    服务器收到请求处理之前进行拦截，取出全局事务ID,并调用Seata的方法绑定到当前线程内
           
         Metadata.Key<String> key_xid = Metadata.Key.of(RootContext.KEY_XID, Metadata.ASCII_STRING_MARSHALLER);
         final String rpcXid = metadata.get(key_xid);
